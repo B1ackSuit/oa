@@ -17,7 +17,7 @@
     <packaging>pom</packaging>
 
     <modules>
-
+        <module>oa-emp</module>
     </modules>
 
     <properties>
@@ -234,5 +234,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
 </project>
