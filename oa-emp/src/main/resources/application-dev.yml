@@ -119,3 +119,25 @@ spring:
         # IP黑名单（如果和白名单同时存在，deny优先于allow）
         # deny: 127.0.0.1
 
+logging:
+  level:
+    cn.ean.oaemp.mapper: debug
+
+jwt:
+  # JWT存储的请求头
+  tokenHeader: Authorization
+  # JWT加解密使用的密钥，后32位为前面内容MD5加密后的密文
+  secret: oa-emp-secret-B9C1B02785FA44DC1064AAC47962FD08
+  # JWT的超期限时间(60*60*24)
+  expiration: 604800
+  # JWT负载中拿到开头
+  tokenHead: Bearer
+
+mybatis-plus:
+  # type-alias扫描路径，配置后会导致问题
+  # type-aliases-package: cn.ean.oaemp.model.po
+  mapper-locations:
+    - classpath*:/mapper/*.xml
+  configuration:
+    # 自动驼峰命名
+    map-underscore-to-camel-case: false
