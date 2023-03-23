@@ -1,0 +1,115 @@
+
+server:
+  port: 8080
+
+spring:
+  banner:
+    charset: UTF-8
+    location: banner.txt
+
+  datasource:
+    # 数据库访问配置，使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/oa_restart?serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+
+    druid:
+      # 连接池配置
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+
+      # 连接等待时间，单位是ms
+      max-wait: 30000
+
+      # 配置连接在池中的最小生存时间
+      min-evictable-idle-time-millis: 300000
+
+      # 用来检测连接是否有效的一个sql语句，要求是一个查询语句
+      validation-query: select '1' from dual
+
+      # 建议配置为true，不影响性能，并且保证安全性
+      # true：如果空闲时间大于timeBetweenEvictionRunsMills，执行validationQuery检测连接是否有效
+      test-while-idle: true
+
+      # 申请连接时和归还连接时执行validationQuery检测连接是否有效，开通配置会降低性能
+      test-on-borrow: false
+      test-on-return: false
+
+      # true：打开PSCache并且指定每个连接上PSCache的大小
+      # 此选项可理解为是否缓存PreparedStatement，PS即前者的缩写
+      # PSCache对支持游标的数据库性能提升巨大，比如Oracle。MySQL不支持游标，建议设为false
+      pool-prepared-statements: false
+      # 如果开启缓存PSCache，才使用下面的配置
+      # max-open-prepared-statements: 20
+      # max-pool-prepared-statement-per-connection-size: 20
+
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计
+      # filters 配置是查询数据时用于筛选数据的一种方式
+      # filters 属性是一个数组，其中包含多个过滤器，用于对查询进行过滤。它们是按顺序应用的，因此在查询中先定义的过滤器先被应用
+      # 如果同时定义了 filters 和 filter 属性，那么 filters 属性定义的过滤器将首先被应用，然后再应用 filter 属性定义的过滤器
+      # stat 表示一些统计信息，用于对匹配到的数据进行计数和汇总
+      # stat 可以作为一个属性出现在 filter 配置的顶层，或者作为子属性出现在某个 filter 对象中
+      filters: stat
+
+      # 配置StatFilter
+      # filter 配置用于指定数据查询或转换中要应用的过滤器规则
+      # filter 属性是一个单一的过滤器，用于对整个数据源进行过滤。它通常用于对数据源应用全局过滤器，以排除不需要的数据。
+      # 如果定义了 filter 属性，则所有查询都将自动应用该过滤器
+      # 可以在查询或数据源定义的多个级别（如数据源级别、查询级别、查询片段级别）进行设置
+      filter:
+        # stat 是指统计函数（statistical functions），用于对数据进行聚合计算，类似于 SQL 中的聚合函数
+        stat:
+          # log-slow-sql 是一种特殊的统计函数，用于记录执行时间超过指定阈值的 SQL 查询语句。
+          # 它通常用于诊断性能问题和调试 Druid 集群。
+          log-slow-sql: true
+          # 默认值为3000L
+          slow-sql-millis: 3000L
+
+      # Spring监控AOP切入点，如x.y.z.*
+      aop-patterns:
+        - cn.ean.oaemp.service.*
+        - cn.ean.oaemp.controller.*
+
+      # WebStatFilter配置，是Druid提供的一种Web应用性能监控的过滤器。可以统计应用的SQL执行情况、数据源连接情况、HTTP请求情况等
+      # 通过Web页面展示出来，可以通过http://localhost:port/druid/index.html访问监控界面
+      web-stat-filter:
+        enabled: true
+        # 添加过滤规则
+        url-pattern: /*
+        # 忽略过滤的格式
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+
+      # StatViewServlet配置
+      # stat-view-servlet配置是Druid提供的一种Web应用程序性能监控的Servlet
+      # 与web-stat-filter相比，stat-view-servlet提供了更加详细和全面的性能监控数据，并且支持对Druid数据源的实时管理和配置。
+      # 登录网址同WebStatFilter，但需要账号密码
+      stat-view-servlet:
+        enabled: true
+        # 访问路径为/druid时，跳转到StatViewServlet
+        url-pattern: /druid/*
+        # 是否能够重置数据
+        reset-enable: false
+        # 需要账号密码才能访问控制台
+        login-username: druid
+        login-password: druid-oaemp
+        # IP白名单
+        allow: localhost, 127.0.0.1
+        # IP黑名单（如果和白名单同时存在，deny优先于allow）
+        # deny: 127.0.0.1
+
+logging:
+  level:
+    cn.ean.oasecurity.repository: debug
+
+jwt:
+  # JWT存储的请求头
+  tokenHeader: Authorization
+  # JWT加解密使用的密钥，后32位为前面内容MD5加密后的密文
+  secret: oa-emp-secret-B9C1B02785FA44DC1064AAC47962FD08-c1f7e68bfe27d91a666dc8d3ee92843a
+  # JWT的超期限时间(60*60*24)
+  expiration: 604800
+  # JWT负载中拿到开头
+  tokenHead: Bearer
