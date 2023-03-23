@@ -39,7 +39,8 @@
 
         <!-- 数据库 -->
         <mysql-v>8.0.23</mysql-v>
-        <mybatis-plus-v>3.3.1</mybatis-plus-v>
+        <!-- <mybatis-plus-v>3.3.1</mybatis-plus-v> -->
+        <mybatis-plus-v>3.5.3</mybatis-plus-v>
         <lombok-v>1.18.16</lombok-v>
         <druid-v>1.2.5</druid-v>
 
@@ -225,6 +226,7 @@
                 <artifactId>batik-all</artifactId>
                 <version>${batik-v}</version>
             </dependency>
+
 
             <!-- javax -->
             <dependency>

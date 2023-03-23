@@ -59,7 +59,7 @@ public class DepartmentPO implements Serializable {
 
     @ApiModelProperty(value = "子部门列表")
     @TableField(exist = false)
-    private List<Department> children;
+    private List<DepartmentPO> children;
 
     @ApiModelProperty(value = "返回结果，存储过程使用")
     @TableField(exist = false)
