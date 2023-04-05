@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ean.oaemp.mapper.MenuMapper">
+
+    <resultMap id="BaseResultMap" type="cn.ean.oaemp.model.po.MenuPO">
+        <id column="pk_id" property="pkId"/>
+        <result column="url" property="url"/>
+        <result column="path" property="path"/>
+        <result column="component" property="component"/>
+        <result column="name" property="name"/>
+        <result column="icon" property="icon"/>
+        <result column="is_keep_alive" property="keepAlive"/>
+        <result column="is_require_auth" property="requireAuth"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="is_enabled" property="enabled"/>
+    </resultMap>
+
+    <select id="getMenusByUserId" resultType="cn.ean.oaemp.model.po.MenuPO">
+        SELECT DISTINCT
+            mparent.*,
+            mchildren.pk_id AS pk_id2,
+            mchildren.url AS url2,
+            mchildren.path AS path2,
+            mchildren.component AS component2,
+            mchildren.`name` AS name2,
+            mchildren.icon AS icon2,
+            mchildren.is_keep_alive AS is_keep_alive2,
+            mchildren.is_require_auth AS is_require_auth2,
+            mchildren.parent_id AS parent_id2,
+            mchildren.is_enabled AS is_enabled2
+        FROM oa_emp_menu mparent
+                 LEFT JOIN oa_emp_menu mchildren ON mparent.pk_id = mchildren.parent_id
+                 LEFT JOIN oa_emp_menu_role mr ON mchildren.pk_id = mr.menu_id
+                 LEFT JOIN oa_emp_user_role ur on mr.role_id = ur.role_id
+        WHERE
+            mparent.pk_id = mchildren.parent_id
+          AND mchildren.pk_id = mr.menu_id
+          AND mr.role_id = ur.role_id
+          AND ur.user_id = #{pkId}
+          AND mchildren.is_enabled = 1
+        ORDER BY
+            mchildren.pk_id
+    </select>
+</mapper>
