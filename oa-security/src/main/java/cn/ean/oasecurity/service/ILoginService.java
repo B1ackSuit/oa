@@ -13,13 +13,11 @@ public interface ILoginService {
 
     /**
      * 登录返回token
-     * @param username
-     * @param password
-     * @param code
+     * @param userLoginVO
      * @param request
      * @return ResponseBO
      */
-    ResponseBO login(UserLoginVO userLoginVO);
+    ResponseBO login(UserLoginVO userLoginVO, HttpServletRequest request);
 
     ResponseBO signup(UserLoginVO userLoginVO);
 

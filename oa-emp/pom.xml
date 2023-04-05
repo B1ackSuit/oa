@@ -184,6 +184,11 @@
             <artifactId>oa-security</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.aventrix.jnanoid</groupId>
+            <artifactId>jnanoid</artifactId>
+        </dependency>
     </dependencies>
 
     <!-- 父子模块下，子模块使用maven插件容易报错 -->

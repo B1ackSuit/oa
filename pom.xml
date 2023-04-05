@@ -75,6 +75,9 @@
         <!-- jdk11删除了javax，如需要可引入 -->
         <jaxb-api-v>2.3.0</jaxb-api-v>
 
+        <!-- NanoID的版本 -->
+        <nanoid-v>2.0.0</nanoid-v>
+
     </properties>
 
     <dependencyManagement>
@@ -233,6 +236,12 @@
                 <groupId>javax.xml.bind</groupId>
                 <artifactId>jaxb-api</artifactId>
                 <version>${jaxb-api-v}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.aventrix.jnanoid</groupId>
+                <artifactId>jnanoid</artifactId>
+                <version>${nanoid-v}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

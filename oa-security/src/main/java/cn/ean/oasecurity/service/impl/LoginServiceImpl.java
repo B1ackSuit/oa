@@ -3,6 +3,7 @@ package cn.ean.oasecurity.service.impl;
 import cn.ean.oasecurity.model.bo.ResponseBO;
 import cn.ean.oasecurity.model.vo.UserLoginVO;
 import cn.ean.oasecurity.service.ILoginService;
+import cn.ean.oasecurity.util.charopn.StringUtils;
 import cn.ean.oasecurity.util.security.JwtUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,18 +47,20 @@ public class LoginServiceImpl implements ILoginService {
     /**
      * 登录返回token
      *
-     * @param username
-     * @param password
-     * @param code
+     * @param userLoginVO
      * @param request
      * @return ResponseBO
      */
     @Override
-    public ResponseBO login(UserLoginVO userLoginVO) {
-        System.out.println("userLoginVO: " + userLoginVO.getUsername() + ", " + userLoginVO.getPassword());
+    public ResponseBO login(UserLoginVO userLoginVO, HttpServletRequest request) {
+        String captcha = (String) request.getSession().getAttribute("captcha");
+        String code = userLoginVO.getCode();
+        if (StringUtils.isBlank(code) || !captcha.equals(code)) {
+            return ResponseBO.error("验证码填写错误");
+        }
+
         UserDetails userDetails = userDetailsService.loadUserByUsername(userLoginVO.getUsername());
-        System.out.println("userDetails: " + userDetails + ", " +
-                "userDetails.getPassword(): " + userDetails.getPassword());
+
         if (null == userDetails || !passwordEncoder.matches(userLoginVO.getPassword(), userDetails.getPassword())) {
             return ResponseBO.error("用户名或密码不正确");
         }

@@ -25,7 +25,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseBO login(@RequestBody UserLoginVO userLoginVO) {
-        return loginService.login(userLoginVO);
+    public ResponseBO login(@RequestBody UserLoginVO userLoginVO, HttpServletRequest request) {
+        return loginService.login(userLoginVO, request);
     }
 }

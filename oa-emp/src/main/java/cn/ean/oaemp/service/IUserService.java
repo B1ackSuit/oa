@@ -16,7 +16,7 @@ public interface IUserService extends IService<UserPO> {
      * @param workId
      * @return 用户的用户名
      */
-    UserPO getUserByUserName(String workId);
+    // UserPO getUserByUserName(String workId);
 
 
 }

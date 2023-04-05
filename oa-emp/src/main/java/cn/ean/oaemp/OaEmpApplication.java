@@ -25,13 +25,13 @@ public class OaEmpApplication {
          .main是为了可以加载 Spring 版本
          .bannerMode设置为控制台打印
          */
-        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
-        new SpringApplicationBuilder(OaEmpApplication.class)
-                .main(SpringVersion.class)
-                .bannerMode(Banner.Mode.CONSOLE)
-                .run(args);
+        // AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
+        // new SpringApplicationBuilder(OaEmpApplication.class)
+        //         .main(SpringVersion.class)
+        //         .bannerMode(Banner.Mode.CONSOLE)
+        //         .run(args);
 
-        // SpringApplication.run(OaEmpApplication.class, args);
+        SpringApplication.run(OaEmpApplication.class, args);
     }
 
 }

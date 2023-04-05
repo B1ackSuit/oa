@@ -3,6 +3,10 @@ server:
 
 spring:
 
+  banner:
+    charset: UTF-8
+    location: banner.txt
+
   redis:
     host: 127.0.0.1
     port: 6379
